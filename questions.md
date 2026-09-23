@@ -107,8 +107,6 @@ How many deliveries received each rating (1 through 5)? What percentage of deliv
 **Q20 · Operations**
 How many delivered orders have no rating recorded? Which agents are most affected by missing ratings — and should missing ratings be treated as neutral or excluded from performance scoring?
 
-> ⚠ **Trap:** Missing ratings could unfairly penalise or favour agents depending on how you handle NULLs.
-
 ---
 
 **Q21 · Customer Behavior**
@@ -154,14 +152,10 @@ For each city, which restaurant category do customers order from the most? Do Po
 **Q29 · Delivery Performance**
 Are there any orders marked as 'Delivered' in the orders table that have no corresponding record in the deliveries table? What might cause this in a real system?
 
-> ⚠ **Trap:** This is a data integrity check. Joining incorrectly can make this invisible.
-
 ---
 
 **Q30 · Revenue**
 How much total order revenue has each delivery agent handled? Rank them. Should agent bonuses be based on this number?
-
-> ⚠ **Trap:** Agent revenue = sum of order amounts they delivered. Don't confuse order count with revenue.
 
 ---
 
@@ -180,8 +174,6 @@ What percentage of total revenue comes from the top 3 restaurants? If those rest
 **Q33 · Operations**
 The city field has inconsistent values like 'chennai', 'CHENNAI', and 'Pondy'. If you group by city without cleaning this data, how much does the revenue figure for Chennai get undercounted? Quantify the error.
 
-> ⚠ **Trap:** Naive GROUP BY city will split Chennai into 3 separate groups and silently undercount revenue.
-
 ---
 
 **Q34 · Customer Behavior**
@@ -196,8 +188,6 @@ Average rating alone doesn't tell the full story. Which agents have the highest 
 
 **Q36 · Operations**
 Are there any orders with status 'Cancelled' in the orders table that somehow still have a record in the deliveries table? What does this mean operationally — payment refund risk, data pipeline bug, or both?
-
-> ⚠ **Trap:** A cancelled order with a delivery record is a serious data anomaly. A naive join can hide this entirely.
 
 ---
 
@@ -214,8 +204,6 @@ For customers who ordered more than once, what is the average number of days bet
 **Q39 · Customer Behavior**
 Are there customers ordering from restaurants in a different city than their home city? List them. Is this a data issue, or do they genuinely order cross-city? What business rule should govern this?
 
-> ⚠ **Trap:** Requires joining customers and restaurants on city and comparing — easy to produce wrong results if JOIN order or level is off.
-
 ---
 
 **Q40 · Delivery Performance**
@@ -225,8 +213,6 @@ Do orders with longer delivery times consistently receive lower ratings? Find th
 
 **Q41 · Revenue**
 If you join orders → deliveries → agents without being careful about join type and aggregation level, revenue figures can be inflated. Construct a scenario where this double-counting happens and explain exactly why it occurs and how to fix it.
-
-> ⚠ **Trap:** Classic fan trap. One order can have multiple delivery attempts — joining at order level and then summing order_amount inflates total revenue.
 
 ---
 
@@ -248,21 +234,16 @@ Segment all customers into: One-Time (1 order), Occasional (2–3 orders), Regul
 **Q45 · Operations**
 There are orders where order_amount is NULL. If you calculate total revenue with a simple SUM, these rows are silently excluded. How much revenue is potentially missing from your reports because of this? What should the business do — impute, flag, or exclude?
 
-> ⚠ **Trap:** SUM ignores NULLs without any warning or error. Most analysts don't notice the row count doesn't match the revenue row count.
-
 ---
 
 **Q46 · Delivery Performance**
 Are any delivery agents handling orders in a city different from the city they are registered in? List those deliveries. Is this a routing system failure, agent flexibility, or a data entry error?
-
-> ⚠ **Trap:** Requires a multi-table join across deliveries, orders, restaurants, and agents — easy to join at the wrong level and miss mismatches.
 
 ---
 
 **Q47 · Revenue**
 Calculate the month-over-month revenue growth rate for Jan→Feb and Feb→Mar. Is the business growing? Now recalculate excluding cancelled orders and orders with NULL amounts. Does the growth story change?
 
-> ⚠ **Trap:** Including cancelled orders in revenue is a common business reporting error that overstates performance.
 
 ---
 
@@ -274,15 +255,10 @@ Among customers who only ordered in January and never again, what percentage had
 **Q49 · Operations**
 You are asked to build a monthly agent leaderboard. A junior analyst ranks agents purely by average rating. What are at least 3 reasons this leaderboard is misleading? Redesign the ranking criteria to be fairer and more operationally meaningful.
 
-> ⚠ **Trap:** Agents with only 1 delivery can hold a perfect 5.0. Agents with NULL ratings look artificially better or worse. High-volume agents are structurally penalised compared to low-volume ones.
-
 ---
 
 **Q50 · Revenue**
 The CEO wants a single-page business summary for Q1 2024 (Jan–Mar). Using only this dataset, define the 6 most important KPIs you would report, the biggest risk you would flag, one growth opportunity you see, and one data quality issue that might be distorting the numbers. Justify every choice.
 
-> ⚠ **Trap:** Open-ended. Tests whether you know what matters vs what's merely easy to compute.
-
 ---
 
-*50 questions · 7 traps · 6 domains · 1 dataset*
