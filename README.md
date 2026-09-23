@@ -156,11 +156,15 @@ See [`questions.md`](questions.md) and [`sql/`](sql/).
 
 ## Files
 
-- [`business_summary.md`](business_summary.md) — full Q1 business review
-- [`questions.md`](questions.md) — 50-question bank
-- [`sql/easy.sql`](sql/easy.sql) — Q1–Q12
-- [`sql/medium.sql`](sql/medium.sql) — Q13–Q30
-- [`sql/hard.sql`](sql/hard.sql) — Q31–Q50
+### Analysis
+- [`business_summary.md`](business_summary.md) — Q1 2024 business review
+- [`sql/business_summary_queries.sql`](sql/business_summary_queries.sql) — the 8 queries supporting the review
+
+### SQL practice
+- [`questions.md`](questions.md) — 50-question bank across easy/medium/hard
+- [`sql/practice/easy.sql`](sql/practice/easy.sql) — Q1–Q12
+- [`sql/practice/medium.sql`](sql/practice/medium.sql) — Q13–Q30
+- [`sql/practice/hard.sql`](sql/practice/hard.sql) — Q31–Q50
 
 ---
 
